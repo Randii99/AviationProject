@@ -35,9 +35,10 @@ Partial Class MainWindow
         '
         Me.Panel1.BackColor = System.Drawing.Color.CornflowerBlue
         Me.Panel1.Controls.Add(Me.MenuStrip1)
-        Me.Panel1.Location = New System.Drawing.Point(2, 2)
+        Me.Panel1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(799, 450)
+        Me.Panel1.Size = New System.Drawing.Size(800, 450)
         Me.Panel1.TabIndex = 0
         '
         'MenuStrip1
@@ -45,7 +46,7 @@ Partial Class MainWindow
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FlightToolStripMenuItem, Me.EmployeeToolStripMenuItem, Me.AirlineToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(799, 24)
+        Me.MenuStrip1.Size = New System.Drawing.Size(800, 24)
         Me.MenuStrip1.TabIndex = 0
         Me.MenuStrip1.Text = "MenuStrip1"
         '
@@ -71,6 +72,8 @@ Partial Class MainWindow
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.AutoSize = True
+        Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.ClientSize = New System.Drawing.Size(800, 450)
         Me.Controls.Add(Me.Panel1)
         Me.MainMenuStrip = Me.MenuStrip1

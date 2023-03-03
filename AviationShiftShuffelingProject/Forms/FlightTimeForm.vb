@@ -4,7 +4,7 @@ Imports FontAwesome.Sharp
 
 
 
-Public Class CrewAddForm
+Public Class FlightTimeForm
     Private Sub CrewAddForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         Dim icon As IconChar = IconChar.Add
@@ -28,6 +28,18 @@ Public Class CrewAddForm
         Me.Controls.Add(btnAdd)
 
 
+
+    End Sub
+
+    Private Sub DataGridView1_CellContentClick(sender As Object, e As DataGridViewCellEventArgs)
+
+    End Sub
+
+    Private Sub TextBox2_TextChanged(sender As Object, e As EventArgs) Handles TextBox2.TextChanged
+
+    End Sub
+
+    Private Sub Label2_Click(sender As Object, e As EventArgs) Handles Label2.Click
 
     End Sub
 End Class
