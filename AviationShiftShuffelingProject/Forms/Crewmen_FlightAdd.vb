@@ -729,9 +729,21 @@ Public Class Crewmen_FlightAdd
                 Dim dipT As String = cbDT.Text & ":00"
                 Dim dipTime As DateTime = DateTime.ParseExact(dipT, "HH:mm:ss", CultureInfo.InvariantCulture)
                 Dim sTime As TimeSpan = dipTime.TimeOfDay
-                Dim eta As TimeSpan = stdTime - sTime
+                'Dim eta As TimeSpan = stdTime - sTime
                 Dim dipartime As TimeSpan = TimeSpan.Parse(cbDT.Text)
                 Dim selectedDate As DateTime = DateTimePicker1.Value
+
+                Dim eta As TimeSpan
+                If stdTime <= sTime Then ' if the standard time is earlier or the same as the dip time, add 1 day to the std time
+                    eta = stdTime.Add(TimeSpan.FromDays(1)) - sTime
+                Else ' if the standard time is later than the dip time, subtract the two times
+                    eta = stdTime - sTime
+                End If
+
+                Console.WriteLine("ETA: " & eta.ToString("hh\:mm\:ss")) ' output the ETA in the format hh:mm:ss
+
+
+
 
                 cmd.Parameters.AddWithValue("@FID", lbselectID.Text)
                 cmd.Parameters.AddWithValue("@STD", stdTime)
