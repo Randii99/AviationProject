@@ -595,6 +595,7 @@ Partial Class Crewmen_FlightAdd
         'btnsave1
         '
         Me.btnsave1.BackColor = System.Drawing.SystemColors.ButtonShadow
+        Me.btnsave1.FlatStyle = System.Windows.Forms.FlatStyle.Popup
         Me.btnsave1.Font = New System.Drawing.Font("Times New Roman", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point)
         Me.btnsave1.IconChar = FontAwesome.Sharp.IconChar.FloppyDisk
         Me.btnsave1.IconColor = System.Drawing.Color.Black

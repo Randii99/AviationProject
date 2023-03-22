@@ -16,11 +16,7 @@ Public Class Crewmen_FlightAdd
 
         'load grid
         loadToGrid()
-
-
-
         loadToGrid1()
-
 
         loadAirlineCode()
 
@@ -33,40 +29,27 @@ Public Class Crewmen_FlightAdd
         cbPosition.Items.Add("CREWMEN")
         cbPosition.Items.Add("RIC")
 
-
-
         For i As Integer = 0 To 24
             Dim formattedNumber As String = i.ToString("D2")
             cbStd.Items.Add(formattedNumber.ToString())
         Next
-
 
         For j As Integer = 0 To 60
             Dim formattedNumber As String = j.ToString("D2")
             cbStd1.Items.Add(formattedNumber.ToString())
         Next
 
-
-
         cbDT.Items.Add("00:30") 'add to combo box
         cbDT.Items.Add("01:00")
         cbDT.Items.Add("01:30")
         cbDT.Items.Add("02:00")
 
-
-
-    End Sub
-
-
-
-    Private Sub DataGridView1_CellContentClick_1(sender As Object, e As EventArgs) Handles MyBase.Load
     End Sub
 
     'pass crewmen Details  to the database
     Private Sub btnsave_Click(sender As Object, e As EventArgs) Handles btnsave.Click
 
         Try
-
             ' check whether all the fields are empty
             If String.IsNullOrEmpty(tbName.Text) Then
                 MsgBox(Name & "FILL The Field")
@@ -79,14 +62,12 @@ Public Class Crewmen_FlightAdd
             ElseIf String.IsNullOrEmpty(cbPosition.Text) Then
                 cbPosition.Focus()
 
-
             Else
 
                 ' open database connection 
                 connsql.Open()
                 Dim namen As String
                 namen = tbName.Text
-
 
                 Dim queryString As String = "SELECT COUNT(*) FROM CREWMEMBERS_MASTER_TABLE WHERE Name = @userInput"
                 Dim commandc As New SqlCommand(queryString, connsql)
@@ -147,7 +128,6 @@ Public Class Crewmen_FlightAdd
             ' check whether id is null or empty
             If String.IsNullOrEmpty(lblSelectedID.ToString) Then
 
-
                 ' check whether all the fields are empty
             ElseIf String.IsNullOrEmpty(tbName.Text) Then
                 MsgBox(Name & "FILL The Field")
@@ -160,24 +140,25 @@ Public Class Crewmen_FlightAdd
             ElseIf String.IsNullOrEmpty(cbPosition.Text) Then
                 cbPosition.Focus()
 
-
             Else
 
                 ' open database connection 
                 connsql.Open()
                 Dim namen As String
                 namen = tbName.Text
+                Dim idn As Integer = Integer.Parse(lblSelectedID.Text)
 
 
-                Dim queryString As String = "SELECT COUNT(*) FROM CREWMEMBERS_MASTER_TABLE WHERE Name = @userInput"
+                Dim queryString As String = "SELECT COUNT(*) FROM CREWMEMBERS_MASTER_TABLE WHERE Name = @userInput and ID != @id "
                 Dim commandc As New SqlCommand(queryString, connsql)
                 commandc.Parameters.AddWithValue("@userInput", namen)
+                commandc.Parameters.AddWithValue("@id", idn)
                 Dim count As Integer = Convert.ToInt32(commandc.ExecuteScalar())
                 connsql.Close()
 
                 If count > 0 Then
 
-                    MsgBox("user name already exists in database")
+                    MsgBox("Crewmen name already exists in database")
                 Else
 
                     connsql.Open()
@@ -195,10 +176,8 @@ Public Class Crewmen_FlightAdd
                         MsgBox(tbName.Text & " Successfully Updated ")
                         cmd.ExecuteNonQuery()
 
-
                     End If
                     connsql.Close()
-
                     loadToGrid()
 
                 End If
@@ -274,7 +253,6 @@ Public Class Crewmen_FlightAdd
             Dim adapter As New SqlDataAdapter()
             adapter.SelectCommand = cmd
 
-
             DataGridView2.Columns("fno").DataPropertyName = "Flight_No"
             DataGridView2.Columns("alc").DataPropertyName = "Airline_Code"
             DataGridView2.Columns("fid1").DataPropertyName = "FID"
@@ -285,16 +263,11 @@ Public Class Crewmen_FlightAdd
             'Fill the DataTable with the data from the SQL data adapter
             adapter.Fill(table)
 
-
-
             'Add new columns to the DataTable
             table.Columns.Add("std1", GetType(TimeSpan))
             table.Columns.Add("dipart", GetType(TimeSpan))
             table.Columns.Add("eta", GetType(TimeSpan))
             table.Columns.Add("dt", GetType(DateTime))
-
-
-
 
             'Loop through each row in the DataTable
             For Each row As DataRow In table.Rows
@@ -326,8 +299,6 @@ Public Class Crewmen_FlightAdd
                     row("eta") = eta
                     row("dt") = dt
 
-
-
                     'Close the reader
                     reader.Close()
                 End If
@@ -352,7 +323,6 @@ Public Class Crewmen_FlightAdd
             'Close the connection
             connsql.Close()
         End Try
-
 
     End Sub
 
@@ -390,7 +360,7 @@ Public Class Crewmen_FlightAdd
     End Sub
 
 
-    'flight details
+    'insert flight details
     Private Sub btnsave1_Click(sender As Object, e As EventArgs) Handles btnsave1.Click
         Try
 
@@ -481,26 +451,7 @@ Public Class Crewmen_FlightAdd
                     ' Dim selectId As New Integer
                     cmdd.Parameters.AddWithValue("@FID", lblSelectedID.Text)
                     Dim adapter As New SqlDataAdapter(cmdd)
-                    ' Dim dataTable1 As New DataTable()
-                    ' adapter.Fill(dataTable1)
 
-                    ' DataGridView1.DataSource = dataTable1
-
-                    'query = "SELECT COUNTI(*) FROM FLIGHT_MASTER_TABLE WHERE FID = @FID; SELECT COUNT(*) FROM FLIGHT_TIME_TABLE WHERE FID = @FID"
-
-                    '  cmdd = New SqlCommand(query, connsql)
-                    ' cmdd.Parameters.AddWithValue("@FID", lblSelectedID.Text)
-                    ' connsql.Open()
-                    ' Dim reader As SqlDataReader = cmdd.ExecuteReader()
-                    ' reader.Read()
-                    ' Dim count1 As Integer = reader.GetInt32(0)
-                    ' reader.NextResult()
-                    ' reader.Close()
-                    ' Dim count2 As Integer = reader.GetInt32(0)
-                    'reader.Close()
-
-                    '7. Display the count value in a label or another suitable control
-                    '                    Label1.Text = "Total Rows: " & (count1 + count2).ToString()
 
                     Dim std As String = cbStd.Text & ":" & cbStd1.Text & ":00"
                     Dim dt As DateTime = DateTime.ParseExact(std, "HH:mm:ss", CultureInfo.InvariantCulture)
@@ -519,15 +470,10 @@ Public Class Crewmen_FlightAdd
 
                     Console.WriteLine("ETA: " & eta.ToString("hh\:mm\:ss")) ' output the ETA in the format hh:mm:ss
 
-
-
-                    'MsgBox(eta.ToString("HH:mm"))
-
                     Dim dipartime As TimeSpan = TimeSpan.Parse(cbDT.Text) '==========================> [DIP TIME]
 
                     ' Get the selected date value from the DateTimePicker control
                     Dim selectedDate As DateTime = DateTimePicker1.Value    '======================> date
-
 
                     Dim sql1 As String = "INSERT INTO FLIGHT_TIME_TABLE (FID, STD, [DIP TIME], Date, ETA) values (@FID, @STD, @DIP, @Date, @ETA)"
                     connsql.Open()
@@ -542,19 +488,10 @@ Public Class Crewmen_FlightAdd
                     'connection close
                     connsql.Close()
                     MsgBox(" Successfully Added To The Table")
-
-                    'load data to the grid
-
-
-                    ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''>>>>>>>>>>>>>>>>>>
-                    '''want to load data 
-                    '''
                     loadToGrid1()
-
                 End If
 
             End If
-
 
         Catch ex As Exception
             MsgBox(ex.Message)
@@ -599,7 +536,6 @@ Public Class Crewmen_FlightAdd
 
         cbDT.Text = dipartime.ToString()
         DateTimePicker1.Value = Date.Parse(selectedDate.ToString()) ' Set the date only to the DateTimePicker
-
 
     End Sub
 
@@ -741,9 +677,6 @@ Public Class Crewmen_FlightAdd
                 End If
 
                 Console.WriteLine("ETA: " & eta.ToString("hh\:mm\:ss")) ' output the ETA in the format hh:mm:ss
-
-
-
 
                 cmd.Parameters.AddWithValue("@FID", lbselectID.Text)
                 cmd.Parameters.AddWithValue("@STD", stdTime)
